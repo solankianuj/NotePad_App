@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories("com.example.notes.userRepository")
+@EnableJpaRepositories("com.example.notes.repository")
 public class NotesApplication {
 
     public static void main(String[] args) {

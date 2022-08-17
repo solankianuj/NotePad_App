@@ -1,9 +1,12 @@
-package com.example.notes.userservices;
+package com.example.notes.service;
 
 import com.example.notes.Exception.UserNotFound;
-import com.example.notes.userModel.UserModel;
-import com.example.notes.userRepository.IUserRepository;
-import com.example.notes.userdto.UserDTO;
+import com.example.notes.dto.NotesDTO;
+import com.example.notes.model.NotesModel;
+import com.example.notes.model.UserModel;
+import com.example.notes.repository.INotesRepository;
+import com.example.notes.repository.IUserRepository;
+import com.example.notes.dto.UserDTO;
 import com.example.notes.util.Response;
 import com.example.notes.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +17,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService implements  IUserService{
+public class UserService implements IUserService {
 
     @Autowired
     IUserRepository iUserRepository;
+
+    @Autowired
+    INotesRepository iNotesRepository;
     @Autowired
     TokenUtil tokenUtil;
 
@@ -31,36 +37,37 @@ public class UserService implements  IUserService{
     }
 
     @Override
-    public UserModel addUser(UserDTO userDTO) {
+    public UserModel addUser(UserDTO userDTO, Long notesId) {
+        Optional<NotesModel> notesModel =iNotesRepository.findById(notesId);
         UserModel  userModel=new UserModel(userDTO);
+
+        if (notesModel.isPresent()){
+            userModel.setNotes(notesModel.get());
+        }
         userModel.setCreatedDate(LocalDateTime.now());
         iUserRepository.save(userModel);
         return userModel;
     }
 
     @Override
-    public UserModel updateUser(long id, UserDTO userDTO) {
-        Optional<UserModel> userModel =iUserRepository.findById(id);
-        if (userModel.isPresent()){
-            userModel.get().setFname(userDTO.getFname());
-            userModel.get().setLname(userDTO.getLname());
-            userModel.get().setEmailID(userDTO.getEmailID());
-            userModel.get().setPassword(userDTO.getPassword());
-            userModel.get().setUpdatedDate(LocalDateTime.now());
-            iUserRepository.save(userModel.get());
-            return userModel.get();
-        }
-         throw new UserNotFound(400,"User Not Found !");
+    public UserModel updateUser(String token, UserDTO userDTO) {
+        UserModel userModel=this.getUserData(token);
+        userModel.setFname(userDTO.getFname());
+        userModel.setLname(userDTO.getLname());
+        userModel.setEmailID(userDTO.getEmailID());
+        userModel.setPassword(userDTO.getPassword());
+        userModel.setUpdatedDate(LocalDateTime.now());
+            iUserRepository.save(userModel);
+            return userModel;
+
     }
 
-        @Override
-        public UserModel deleteUser(long id) {
-        Optional<UserModel> userModel =iUserRepository.findById(id);
-        if (userModel.isPresent()){
-            iUserRepository.delete(userModel.get());
-            return userModel.get();
-        }
-            throw new UserNotFound(400,"User Not Found !");
+    @Override
+    public UserModel deleteUser(String token) {
+        UserModel userModel=this.getUserData(token);
+            iUserRepository.delete(userModel);
+            return userModel;
+
         }
 
     @Override

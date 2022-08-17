@@ -1,6 +1,6 @@
-package com.example.notes.userRepository;
+package com.example.notes.repository;
 
-import com.example.notes.userModel.UserModel;
+import com.example.notes.model.UserModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

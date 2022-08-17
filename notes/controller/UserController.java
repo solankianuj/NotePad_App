@@ -1,8 +1,8 @@
-package com.example.notes.usercontroller;
+package com.example.notes.controller;
 
-import com.example.notes.userModel.UserModel;
-import com.example.notes.userdto.UserDTO;
-import com.example.notes.userservices.IUserService;
+import com.example.notes.model.UserModel;
+import com.example.notes.dto.UserDTO;
+import com.example.notes.service.IUserService;
 import com.example.notes.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,18 +27,18 @@ public class UserController {
     }
 
     @PostMapping("/addUser")
-    public UserModel addUser(@RequestBody UserDTO userDTO){
-       return iUserService.addUser(userDTO);
+    public UserModel addUser(@RequestParam(value = "notesId") Long notesId,@RequestBody UserDTO userDTO){
+       return iUserService.addUser(userDTO,notesId);
     }
 
-    @PutMapping("/updateuser/{id}")
-    public UserModel updateUser(@PathVariable long id ,@RequestBody UserDTO userDTO){
-        return iUserService.updateUser(id, userDTO);
+    @PutMapping("/updateuser")
+    public UserModel updateUser(@RequestParam(value = "token" ) String token ,@RequestBody UserDTO userDTO){
+        return iUserService.updateUser(token, userDTO);
     }
 
-    @DeleteMapping("/deleteUser/{id}")
-    public UserModel deleteUser(@PathVariable long id){
-        return iUserService.deleteUser(id);
+    @DeleteMapping("/deleteUser")
+    public UserModel deleteUser(@RequestParam(value = "token" ) String token){
+        return iUserService.deleteUser(token);
     }
 
     @PostMapping("login")

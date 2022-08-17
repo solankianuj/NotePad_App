@@ -1,4 +1,4 @@
-package com.example.notes.notesDTO;
+package com.example.notes.dto;
 
 import lombok.Data;
 

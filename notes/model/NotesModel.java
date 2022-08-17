@@ -1,8 +1,6 @@
-package com.example.notes.notesModel;
-
-import com.example.notes.notesDTO.NotesDTO;
+package com.example.notes.model;
+import com.example.notes.dto.NotesDTO;
 import lombok.Data;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -19,13 +17,4 @@ public class NotesModel {
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 
-    public NotesModel(NotesDTO notesDTO) {
-        this.note = notesDTO.getNote();
-        this.description = notesDTO.getDescription();
-        this.labels = notesDTO.getLabels();
-    }
-
-    public NotesModel() {
-
-    }
 }

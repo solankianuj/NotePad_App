@@ -1,8 +1,7 @@
-package com.example.notes.userModel;
+package com.example.notes.model;
 
-import com.example.notes.notesDTO.NotesDTO;
-import com.example.notes.notesModel.NotesModel;
-import com.example.notes.userdto.UserDTO;
+import com.example.notes.dto.NotesDTO;
+import com.example.notes.dto.UserDTO;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -29,17 +28,6 @@ public class UserModel {
         this.lname= userDTO.getLname();
         this.emailID= userDTO.getEmailID();
         this.password= userDTO.getPassword();
-        NotesModel notesModel1=mapNotes(userDTO.getNotes());
-        this.notes=notesModel1;
-
-    }
-
-    private NotesModel mapNotes(NotesDTO notesDTO) {
-        NotesModel model=new NotesModel();
-        model.setNote(notesDTO.getNote());
-        model.setDescription(notesDTO.getDescription());
-        model.setLabels(notesDTO.getLabels());
-        return model;
     }
 
     public UserModel() {
